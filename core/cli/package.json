@@ -1,0 +1,25 @@
+{
+  "name": "@todd-cli/core",
+  "version": "0.0.0",
+  "description": "core for todd-cli",
+  "keywords": [
+    "core"
+  ],
+  "author": "shijie-todd <417138306@qq.com>",
+  "homepage": "https://github.com/shijie-todd/todd-cli/tree/main/core/core#readme",
+  "license": "ISC",
+  "main": "bin/index.js",
+  "bin":{
+    "todd": "bin/index.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shijie-todd/todd-cli.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
