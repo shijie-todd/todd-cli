@@ -1,17 +1,20 @@
 'use strict';
 
 const os = require('os')
+const path = require('path')
 
 const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists').sync
 const minimist = require('minimist')
+const dotenv = require('dotenv')
 
 const log = require('@todd-cli/log')
 
 const pkg = require('../package.json')
 const constants = require('./constants')
 
+const homeDir = os.homedir()
 const argv = minimist(process.argv.slice(2))
 
 function core() {
@@ -21,9 +24,25 @@ function core() {
     checkRoot()
     checkUserHome()
     checkInputParams()
+    checkEnvVariables()
   } catch (e) {
     log.error(e.message)
   }
+}
+
+function checkEnvVariables() {
+  const dotenvPath = path.resolve(homeDir,'.env')
+  if (pathExists(dotenvPath)) {
+    dotenv.config({ path: dotenvPath })
+  }
+  createDefaultEnvConfig()
+}
+
+function createDefaultEnvConfig() {
+  if (!process.env.CLI_HOME_PATH) {
+    process.env.CLI_HOME_PATH = path.resolve(homeDir, constants.CLI_HOME_PATH)
+  }
+  log.verbose('cli_home', process.env.CLI_HOME_PATH)
 }
 
 function checkInputParams() {
@@ -37,7 +56,6 @@ function checkInputParams() {
 }
 
 function checkUserHome() {
-  const homeDir = os.homedir()
   if(!homeDir || !pathExists(homeDir)) {
     throw new Error(colors.red('todd-cli needs a home directory.'))
   }
