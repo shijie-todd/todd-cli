@@ -5,12 +5,14 @@ const os = require('os')
 const semver = require('semver')
 const colors = require('colors/safe')
 const pathExists = require('path-exists').sync
+const minimist = require('minimist')
 
 const log = require('@todd-cli/log')
 
 const pkg = require('../package.json')
 const constants = require('./constants')
 
+const argv = minimist(process.argv.slice(2))
 
 function core() {
   try {
@@ -18,9 +20,20 @@ function core() {
     checkNodeVersion()
     checkRoot()
     checkUserHome()
+    checkInputParams()
   } catch (e) {
     log.error(e.message)
   }
+}
+
+function checkInputParams() {
+  // set log level according to 'debug' parameter
+  if (argv.debug) {
+    process.env.LOG_LEVEL = process.env.LOG_LEVEL ?? constants.DEBUG_LEVEL;
+  } else {
+    process.env.LOG_LEVEL = process.env.LOG_LEVEL ?? constants.DEFAULT_LEVEL;
+  }
+  log.level = process.env.LOG_LEVEL;
 }
 
 function checkUserHome() {
