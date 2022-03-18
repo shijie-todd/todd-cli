@@ -10,6 +10,7 @@ const minimist = require('minimist')
 const dotenv = require('dotenv')
 
 const log = require('@todd-cli/log')
+const npmApi = require('@todd-cli/npm-api')
 
 const pkg = require('../package.json')
 const constants = require('./constants')
@@ -17,7 +18,7 @@ const constants = require('./constants')
 const homeDir = os.homedir()
 const argv = minimist(process.argv.slice(2))
 
-function core() {
+async function core() {
   try {
     checkPkgVersion()
     checkNodeVersion()
@@ -25,8 +26,19 @@ function core() {
     checkUserHome()
     checkInputParams()
     checkEnvVariables()
+    await checkGlobalUpdate()
   } catch (e) {
     log.error(e.message)
+  }
+}
+
+async function checkGlobalUpdate() {
+  const pkgName = pkg.name;
+  const pkgVersion = pkg.version;
+  const latestVersion = await npmApi.getPkgLatestVersion(pkgName, pkgVersion)
+  if (latestVersion) {
+    log.warn(colors.yellow(`Your ${pkgName} current version is ${pkgVersion}.`));
+    log.warn(colors.yellow(`Please run 'npm i -g ${pkgName}' to get the latest version ${latestVersion}!`));
   }
 }
 
