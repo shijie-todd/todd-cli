@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@todd-cli/log": "file:../../utils/log",
+    "@todd-cli/npm-api": "file:../../utils/npm-api",
     "colors": "^1.4.0",
     "dotenv": "^16.0.0",
     "import-local": "^3.1.0",
