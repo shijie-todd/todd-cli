@@ -1,0 +1,31 @@
+{
+  "name": "core",
+  "version": "0.0.0",
+  "description": "",
+  "author": "shijie-todd <417138306@qq.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "bin": {
+    "todd": "bin/index.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "bin": "bin"
+  },
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmmirror.com/"
+  },
+  "dependencies": {
+    "@todd-cli/utils": "file:../utils",
+    "dotenv": "16.0.1",
+    "import-local": "^3.1.0",
+    "minimist": "1.2.6",
+    "root-check": "1.0.0",
+    "semver": "^7.3.7"
+  }
+}
